@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    worker_processes 1;
+
+    events {
+        worker_connections 1024;
+    }
+
+    http {
+        include       mime.types;
+        default_type  application/octet-stream;
+
+        # Rate limiting: max 10 requests per second per IP
+        limit_req_zone $binary_remote_addr zone=one:10m rate=10r/s;
+
+        server {
+            listen 80;
+
+            location / {
+                proxy_pass http://app-service:5000;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+
+                # Apply rate limiting
+                limit_req zone=one burst=5 nodelay;
+            }
+
+            location /healthz {
+                proxy_pass http://app-service:5000/healthz;
+            }
+        }
+    }
