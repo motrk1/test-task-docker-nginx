@@ -1,29 +1,17 @@
-# Tiny Web Service behind Nginx Reverse Proxy
+# Test Task — Docker + Nginx Reverse Proxy
 
-This repository contains a minimal web service running behind an Nginx reverse proxy.
-It supports a **mandatory Docker Compose setup** and a **bonus Kubernetes (Kind + Ingress) setup**.
-
----
-
-## 1. Prerequisites
-
-### Mandatory
-- Docker (Docker Desktop)
-- Docker Compose
-- Make
-
-### Bonus (Kubernetes)
-- kind
-- kubectl
-- helm (optional)
+This repository contains a solution for a test task that demonstrates:
+- a tiny web service running behind an nginx reverse proxy,
+- Docker Compose–based local setup,
+- rate limiting and request ID handling,
+- health checks,
+- and a bonus Kubernetes (Kind + Ingress) deployment.
 
 ---
 
-## 2. How to Run (Docker Compose)
-
-### 2.1 Environment configuration
-
-Copy the example env file and adjust values if needed:
+## TL;DR
 
 ```bash
 cp .env.example .env
+make up
+make test
